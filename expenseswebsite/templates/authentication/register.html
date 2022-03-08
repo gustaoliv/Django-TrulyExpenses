@@ -2,12 +2,48 @@
 
 {% block content %}
 
-<div class="card">
-    <div class="card-body">
-        <h1>Register</h1>
+<br><br><br><br>
+<div class="row">
 
+    <div class="col-md-4"></div>
+
+    <div class="col-md-4">
+        <div class="card mt-40">
+
+            
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>Register for a free accont</h4>
+                </div>
+
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% comment %} NAME {% endcomment %}
+                    <div class="form-group">
+                        <input type="text" name="username" id="id_username" class="form-control mt-2" placeholder="Username"/>
+                    </div>
+                    {% comment %} EMAIL {% endcomment %}
+                    <div class="form-group">
+                        <input type="email" name="email" id="id_email" class="form-control  mt-2" placeholder="Email"/>
+                    </div>
+                    {% comment %} PASSWORD {% endcomment %}
+                    <div class="form-group">
+                        <input type="password" name="password" id="id_password" class="form-control  mt-2" placeholder="Password"/>
+
+                        <small class="text-right">SHOW</small>
+                    </div>
+                    {% comment %} BUTTON {% endcomment %}
+                    <input type="submit" value="Register" class="btn btn-primary"/>
+                </form>
+
+            </div>
+        </div>
     </div>
+    
+    <div class="col-md-4"></div>
 
 </div>
+
 
 {% endblock %}
