@@ -1,10 +1,16 @@
 const id_username = document.querySelector('#id_username');
 const feedBackArea = document.querySelector('.invalid-feedback');
+const id_email = document.querySelector('#id_email');
+const emailfeedBackArea = document.querySelector('.invalid-email')
+const usernameSucessOutput = document.querySelector('.usernameSucessOutput')
 
+
+// Username Validation
 id_username.addEventListener('keyup', (e) => {
-    console.log('777777', 777777);
-
     const usernameVal = e.target.value;
+
+    usernameSucessOutput.style.display = "block";
+    usernameSucessOutput.textContent = `Checking ${usernameVal}`;
 
     id_username.classList.remove('is-invalid');
     feedBackArea.style.display = 'none';
@@ -15,7 +21,7 @@ id_username.addEventListener('keyup', (e) => {
         method: 'POST',
         }).then(res=>res.json()).then(data=>{
             console.log('data', data);
-
+            usernameSucessOutput.style.display = "none";
             if(data.username_error){
                 id_username.classList.add('is-invalid');
                 feedBackArea.style.display = 'block';
@@ -24,4 +30,28 @@ id_username.addEventListener('keyup', (e) => {
         });
     };
 
+})
+
+
+// Email validation
+id_email.addEventListener('keyup', (e) => {
+    const emailVal = e.target.value;
+
+    id_email.classList.remove('is-invalid');
+    emailfeedBackArea.style.display = 'none';
+
+    if (emailVal.length > 0){
+        fetch('/authentication/validate-email', {
+        body: JSON.stringify({email: emailVal}),
+        method: 'POST',
+        }).then(res=>res.json()).then(data=>{
+            console.log('data', data);
+
+            if(data.email_error){
+                id_email.classList.add('is-invalid');
+                emailfeedBackArea.style.display = 'block';
+                emailfeedBackArea.innerHTML =  `<p>${data.email_error}</p>`;
+            }
+        });
+    };
 })
