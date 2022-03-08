@@ -1,5 +1,7 @@
 {% extends 'base_auth.html' %}
 
+{% load static %}
+
 {% block content %}
 
 <br><br><br><br>
@@ -17,24 +19,29 @@
                 </div>
 
 
-                <form action="" method="post">
+                <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
                     {% comment %} NAME {% endcomment %}
                     <div class="form-group">
-                        <input type="text" name="username" id="id_username" class="form-control mt-2" placeholder="Username"/>
+                        <input type="text" name="username" id="id_username" class="form-control mt-3" placeholder="Username"/>
+                    </div>
+                    <div class="invalid-feedback" style="display: none">
+                        
                     </div>
                     {% comment %} EMAIL {% endcomment %}
                     <div class="form-group">
-                        <input type="email" name="email" id="id_email" class="form-control  mt-2" placeholder="Email"/>
+                        <input type="email" name="email" id="id_email" class="form-control  mt-3" placeholder="Email"/>
                     </div>
                     {% comment %} PASSWORD {% endcomment %}
                     <div class="form-group">
-                        <input type="password" name="password" id="id_password" class="form-control  mt-2" placeholder="Password"/>
+                        <input type="password" name="password" id="id_password" class="form-control  mt-3 mb-2" placeholder="Password"/>
 
-                        <small class="text-right">SHOW</small>
+                        <p class="text-end">SHOW</p>
                     </div>
                     {% comment %} BUTTON {% endcomment %}
-                    <input type="submit" value="Register" class="btn btn-primary"/>
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Register" class="btn btn-primary"/>
+                    </div>
                 </form>
 
             </div>
@@ -45,5 +52,6 @@
 
 </div>
 
+<script src="{% static 'js/register.js' %}"></script>
 
 {% endblock %}
