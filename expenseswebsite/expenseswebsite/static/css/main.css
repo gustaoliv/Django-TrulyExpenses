@@ -11,3 +11,13 @@
     font-size: 3.5rem;
 }
 }
+
+
+.showPasswordToggle{
+    cursor: pointer;
+    transition: all;
+}
+
+.showPasswordToggle:hover{
+    color: #2780e3;
+}

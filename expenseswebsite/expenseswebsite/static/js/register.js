@@ -1,9 +1,23 @@
 const id_username = document.querySelector('#id_username');
 const feedBackArea = document.querySelector('.invalid-feedback');
 const id_email = document.querySelector('#id_email');
-const emailfeedBackArea = document.querySelector('.invalid-email')
-const usernameSucessOutput = document.querySelector('.usernameSucessOutput')
+const id_password = document.querySelector('#id_password')
+const emailfeedBackArea = document.querySelector('.invalid-email');
+const usernameSucessOutput = document.querySelector('.usernameSucessOutput');
+const showPasswordToggle = document.querySelector('.showPasswordToggle');
 
+
+const handleToggleInput=(e)=>{
+    if(showPasswordToggle.textContent==='SHOW'){
+        showPasswordToggle.textContent = 'HIDE';
+
+        id_password.setAttribute('type', 'text');
+    }
+    else{
+        showPasswordToggle.textContent = 'SHOW';
+        id_password.setAttribute('type', 'password');
+    }
+}
 
 // Username Validation
 id_username.addEventListener('keyup', (e) => {
@@ -55,3 +69,7 @@ id_email.addEventListener('keyup', (e) => {
         });
     };
 })
+
+
+// Event show password
+showPasswordToggle.addEventListener('click', handleToggleInput);
