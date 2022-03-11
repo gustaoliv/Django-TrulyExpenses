@@ -15,6 +15,8 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from .utils import token_generator
 
+from django.contrib import auth
+
 class UsernameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -128,3 +130,32 @@ class VerificationView(View):
 class LoginView(View):
     def get(self, request):
         return render(request, 'authentication/login.html')
+
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    auth.login(request, user)
+                    messages.success(request, f'Welcome {user.username}, you are now logged in')
+                    return redirect('expenses')
+            
+                else:
+                    messages.error(request, 'Account is not active, please check your email')
+            else:
+                messages.error(request, 'Invalid credentials, try again')
+        else:
+            messages.error(request, 'Please fill all fields')
+        
+        return render(request, 'authentication/login.html')
+
+
+
+class LogoutView(View):
+    def post(self, request):
+        auth.logout(request)
+        messages.success(request, 'You have been logged out')
+        return redirect('login')
