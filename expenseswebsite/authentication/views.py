@@ -1,12 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
 import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
-# Create your views here.
+from django.core.mail import EmailMessage
 
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+
+
+from .utils import token_generator
 
 class UsernameValidationView(View):
     def post(self, request):
@@ -61,7 +68,27 @@ class RegistrationView(View):
                 
                 user = User.objects.create_user(username=username, email=email)
                 user.set_password(password)
+                user.is_active = False
                 user.save()
+
+
+                domain = get_current_site(request).domain
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
+
+                email_subject = 'Active your account'
+                activate_url = f'http://{domain}{link}'
+                email_body = f'Hi {user.username}! Please use this link to verify your account\n{activate_url}'
+                
+                email = EmailMessage(
+                    email_subject,
+                    email_body,
+                    'gusta.oliv4@gmail.com',
+                    [email, ],
+                )  
+                email.send(fail_silently=False)
+
+
                 messages.success(request, 'Account successfully created')
                 return render(request, 'authentication/register.html')
 
@@ -70,3 +97,34 @@ class RegistrationView(View):
 
 
         return render(request, 'authentication/register.html')
+
+
+
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+
+        try:
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=id)
+
+            if not token_generator.check_token(user, token):
+                return redirect('login'+'?message='+'User already activated')
+
+            if user.is_active:
+                return redirect('login')
+            user.is_active = True
+            user.save()
+            messages.success(request, 'Account activated successfully')
+            return redirect('login')
+
+        except Exception as ex:
+            pass
+
+        return redirect('login')
+
+
+
+
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'authentication/login.html')
