@@ -2,30 +2,25 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-3">
+
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Expenses</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="col-md-2">
+            <a href="{% url 'add-expense' %}" class="btn btn-primary">Add Expense</a>
+        </div>
+    </div>
 
     {% include 'partials/_messages.html' %}
 
-    <h1>Expenses List<h1>
-
-    <ul class="list-group">
-        
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-        <li class="list-group-item">Bought Beer</li>
-
-    </ul>
-    
 </div>
 
 
