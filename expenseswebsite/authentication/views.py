@@ -53,6 +53,8 @@ class RegistrationView(View):
 
     def post(self, request):
         #GET USER DATA 
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
@@ -68,7 +70,7 @@ class RegistrationView(View):
                     messages.error(request, 'Password too short')
                     return render(request, 'authentication/register.html', context)
                 
-                user = User.objects.create_user(username=username, email=email)
+                user = User.objects.create_user(username=username, email=email, first_name=first_name, last_name=last_name)
                 user.set_password(password)
                 user.is_active = False
                 user.save()
@@ -80,7 +82,7 @@ class RegistrationView(View):
 
                 email_subject = 'Active your account'
                 activate_url = f'http://{domain}{link}'
-                email_body = f'Hi {user.username}! Please use this link to verify your account\n{activate_url}'
+                email_body = f'Hi {user.first_name}! Please use this link to verify your account\n{activate_url}'
                 
                 email = EmailMessage(
                     email_subject,
@@ -91,8 +93,8 @@ class RegistrationView(View):
                 email.send(fail_silently=False)
 
 
-                messages.success(request, 'Account successfully created')
-                return render(request, 'authentication/register.html')
+                messages.success(request, 'Account successfully created, Please Check Your Email')
+                return render(request, 'authentication/login.html')
 
         #CREATE USER ACCOUNT
 
