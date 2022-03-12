@@ -7,9 +7,10 @@ from django.contrib import messages
 
 @login_required(login_url='login')
 def index(request):
-    categories = Category.objects.all()
+    expenses = Expense.objects.filter(owner=request.user)
+
     context = {
-        'categories': categories
+        'expenses': expenses
     }
     return render(request, 'expenses/index.html', context)
 
