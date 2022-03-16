@@ -1,0 +1,38 @@
+#header {
+    background: #334D5C;
+    color: #fff;
+}
+
+#branding h1{
+    color: #fff;
+}
+
+#header #user-tools a:hover{
+    color: #AD5F2F;
+}
+
+div.breadcrumbs{
+    background: #AD5F2F;
+    margin-bottom: 2%;
+}
+
+.login .submit-row{
+    padding: 0px !important;
+    padding-top: 2% !important;
+
+}
+
+input[type=submit], input[type=button], .submit-row input{
+    width: 100%;
+    background: #334D5C;
+}
+
+input[type=submit]:hover, input[type=button]:hover, .submit-row:hover input:hover{
+    background: #AD5F2F;
+}
+
+
+
+.module h2, .module caption, .inline-group h2 {
+    background: #334D5C;
+}

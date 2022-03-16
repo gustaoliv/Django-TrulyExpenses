@@ -1,0 +1,18 @@
+{% extends 'admin/login.html' %}
+
+{% load static %}
+
+{% block extrahead %}
+        <link rel="icon" href="{% static 'img/favicon.png' %}" sizes="48x48">
+{% endblock %}
+
+
+
+{% block branding %}
+
+<h1 id="head">
+    <img src="{% static 'img/favicon.png' %}" style="width: 50px;">
+    Administration Area
+</h1>
+
+{% endblock %}
