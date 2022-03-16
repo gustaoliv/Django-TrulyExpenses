@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from userpreferences.models import UserPreference
 # Create your views here.
 
 
@@ -14,9 +15,11 @@ def index(request):
     paginator = Paginator(expenses, 6)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
+    currency = UserPreference.objects.get(user=request.user).currency
     context = {
         'expenses': expenses,
         'page_obj': page_obj,
+        'currency': currency,
     }
     return render(request, 'expenses/index.html', context)
 
