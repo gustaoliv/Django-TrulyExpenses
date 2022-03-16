@@ -66,7 +66,6 @@ def edit_expense(request, id):
 
     expense = Expense.objects.get(id=id)
     categories = Category.objects.all()
-    print(expense.date)
     context = {
         'expense': expense,
         'values': expense,
