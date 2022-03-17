@@ -7,18 +7,22 @@ from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
-
 from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
-
-
 from .utils import token_generator
-
 from django.contrib import auth
-
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import threading
 
+
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
 
 class UsernameValidationView(View):
     def post(self, request):
@@ -93,8 +97,8 @@ class RegistrationView(View):
                     'gusta.oliv4@gmail.com',
                     [email, ],
                 )  
-                email.send(fail_silently=False)
-
+                
+                EmailThread(email).start()
 
                 messages.success(request, 'Account successfully created, Please Check Your Email')
                 return render(request, 'authentication/login.html')
@@ -194,7 +198,7 @@ class RequestPasswordResetEmail(View):
 
             email_subject = 'Password Reset Instructions'
             reset_url = f'http://{domain}{link}'
-            email_body = f'Hi there! Please click the link below to reset your password\n{reset_url}'
+            email_body = f'Hi {current_user.username}! Please click the link below to reset your password\n{reset_url}'
             
 
             email = EmailMessage(
@@ -203,7 +207,7 @@ class RequestPasswordResetEmail(View):
                 'gustavodjango25@gmail.com',
                 [email, ],
             )  
-            email.send(fail_silently=False)
+            EmailThread(email).start()
 
         messages.success(request, 'We have send you an email to reset the password')            
 
