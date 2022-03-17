@@ -94,3 +94,8 @@ Feito com :heart: por <a href="https://github.com/gustaoliv" target="_blank">Gus
 &#xa0;
 
 <a href="#top">Voltar para o topo</a>
+
+
+## :memo: Créditos ##
+
+Projeto desenvolvido juntamente com o canal: [Cryce Truly](https://www.youtube.com/c/CryceTruly)
