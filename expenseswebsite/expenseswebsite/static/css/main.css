@@ -22,3 +22,15 @@
 .showPasswordToggle:hover{
     color: #2780e3;
 }
+
+
+#login-button{
+  width: 100%;
+  margin-bottom: 2%;
+}
+
+#register-button{
+  width: 100%;
+  margin-bottom: 2%;
+}
+

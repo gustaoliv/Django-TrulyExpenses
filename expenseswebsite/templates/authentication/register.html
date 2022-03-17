@@ -53,14 +53,16 @@
                     <div class="form-group">
                         <input type="password" name="password" id="id_password" class="form-control  mt-3 mb-2" placeholder="Password"/>
 
-                        <p class="float-end showPasswordToggle">SHOW</p>
+                        <p class="float-right showPasswordToggle">SHOW</p>
                     </div>
                     {% comment %} BUTTON {% endcomment %}
                     <div class="d-grid gap-2">
-                        <input type="submit" value="Register" class="btn btn-primary submit-btn"/>
+                        <input id="register-button" type="submit" value="Register" class="btn btn-primary submit-btn"/>
                     </div>
                 </form>
 
+                <span>Do you have an account? </span><a href="{% url 'login' %}">Log in</a>
+                
             </div>
         </div>
     </div>
