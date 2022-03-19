@@ -6,6 +6,7 @@ from userpreferences.models import UserPreference
 from django.contrib import messages
 import json
 from django.http import JsonResponse
+from .forms import SourceForm
 
 
 @login_required(login_url='login')
@@ -14,7 +15,10 @@ def index(request):
     paginator = Paginator(incomes, 6)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
-    currency = UserPreference.objects.get(user=request.user).currency
+    try:
+        currency = UserPreference.objects.get(user=request.user).currency
+    except:
+        currency = ""
     context = {
         'incomes': incomes,
         'page_obj': page_obj,
@@ -137,3 +141,19 @@ def search_incomes(request):
         
 
         return JsonResponse(list(data), safe=False)
+
+
+
+def add_source(request, opt, pk):
+    form = SourceForm(request.POST)
+
+    if form.is_valid():
+        register = form.save(commit=False)
+        register.owner = request.user
+        register.save()
+        messages.success(request, 'Category created successfully')
+
+    if opt == 1:
+        return redirect('add-income')
+    else:
+        return redirect('edit-income', pk)
