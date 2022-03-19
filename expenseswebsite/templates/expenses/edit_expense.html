@@ -41,15 +41,27 @@
                     <input type="text" class="form-control" name="description" value={{expense.description}}>
                 </div>
 
-
-                <div class="form-group">
-                    <label for="">Category</label>
-                    <select name="category" class="form-control">
-                        {% for category in categories %}
-                            <option name="category" value={{category.id}} {% if category.id == expense.category.id %} selected {% endif %}>{{category.name|title}}</option>
-                        {% endfor %}
-                    </select>
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <label for="">Category</label>
+                            <select name="category" class="form-control">
+                                {% for category in categories %}
+                                    <option name="category" value={{category.id}} {% if category.id == expense.category.id %} selected {% endif %}>{{category.name|title}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="col-md-1">
+                            <!-- Button trigger modal -->
+                            <div class="div-button">
+                                <a type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#add_cat">+</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
                 
                 <div class="form-group">
                     <label for="">Date of Expense</label>
@@ -63,6 +75,36 @@
     </div>
     
 
+</div>
+
+
+
+<div class="container">
+    <!-- Modal -->
+    <form name="form-cat" id="form-cat" class="form-horizontal" method="post" action="{% url 'add_category' 2 expense.id %}">
+        {% csrf_token %}
+        <div class="modal fade" id="add_cat" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h4 class="modal-title">Create Category</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Category's name</label>
+                            <input type="text" class="form-control" id="id_name" name="name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 {% endblock %}

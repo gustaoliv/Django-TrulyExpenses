@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 import tempfile
 from django.db.models import Sum
+from .forms import CategoryForm
 # Create your views here.
 
 
@@ -35,7 +36,7 @@ def index(request):
 
 
 def add_expense(request):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(owner=request.user)
     context = {
         'categories': categories,
         'values': request.POST
@@ -75,7 +76,7 @@ def add_expense(request):
 def edit_expense(request, id):
 
     expense = Expense.objects.get(id=id)
-    categories = Category.objects.all()
+    categories = Category.objects.filter(owner=request.user)
     context = {
         'expense': expense,
         'values': expense,
@@ -248,3 +249,19 @@ def export_pdf(request):
         response.write(output.read())
 
     return response
+
+
+
+def add_category(request, opt, pk):
+    form = CategoryForm(request.POST)
+
+    if form.is_valid():
+        register = form.save(commit=False)
+        register.owner = request.user
+        register.save()
+        messages.success(request, 'Category created successfully')
+
+    if opt == 1:
+        return redirect('add-expense')
+    else:
+        return redirect('edit-expense', pk)

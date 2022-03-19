@@ -24,7 +24,7 @@ def index(request):
 
 
 def add_income(request):
-    sources = Source.objects.all()
+    sources = Source.objects.filter(owner=request.user)
     context = {
         'sources': sources,
         'values': request.POST
@@ -63,7 +63,7 @@ def add_income(request):
 def edit_income(request, id):
 
     income = UserIncome.objects.get(id=id)
-    sources = Source.objects.all()
+    sources = Source.objects.filter(owner=request.user)
     context = {
         'income': income,
         'values': income,
