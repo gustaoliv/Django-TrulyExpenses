@@ -176,7 +176,18 @@ def expense_category_summary(request):
         for y in category_list:
             finalrep[y.name] = get_expense_category_amount(y)
 
-    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+
+    amount_month = {}
+    for exp in expenses:
+        month = exp.date.strftime('%b')
+        amount = exp.amount
+        
+        if month in amount_month.keys():
+            amount_month[month] += amount
+        else:
+            amount_month[month] = amount
+
+    return JsonResponse({'expense_category_data': finalrep, 'amount_month': amount_month}, safe=False)
 
 
 
