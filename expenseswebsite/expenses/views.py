@@ -14,6 +14,7 @@ from weasyprint import HTML
 import tempfile
 from django.db.models import Sum
 from .forms import CategoryForm
+from userincome.models import UserIncome
 # Create your views here.
 
 
@@ -276,3 +277,62 @@ def add_category(request, opt, pk):
         return redirect('add-expense')
     else:
         return redirect('edit-expense', pk)
+
+
+
+
+def expense_income_charts_view(request):
+    return render(request, 'expenses/expense_income_charts_view.html')
+
+
+def expense_income_charts_summary(request):
+    todays_date = datetime.date.today()
+    six_months_ago = todays_date-datetime.timedelta(days=30*6)
+    expenses_list = Expense.objects.filter(owner=request.user,
+                                      date__gte=six_months_ago, date__lte=todays_date)
+
+    incomes_list = UserIncome.objects.filter(owner=request.user,
+                                      date__gte=six_months_ago, date__lte=todays_date)
+
+    incomes = {}
+    expenses = {}
+    
+    for exp in expenses_list:
+        month = exp.date.strftime('%b')
+        amount = exp.amount
+        
+        if month in expenses.keys():
+            expenses[month] += amount
+        else:
+            expenses[month] = amount
+
+
+    for inc in incomes_list:
+        month = inc.date.strftime('%b')
+        amount = inc.amount
+        
+        if month in incomes.keys():
+            incomes[month] += amount
+        else:
+            incomes[month] = amount
+
+
+    for month in incomes:
+        if month not in expenses.keys():
+            expenses[month] = 0
+    
+    for month in expenses:
+        if month not in incomes.keys():
+            incomes[month] = 0
+
+    result_incomes = {}
+    for key in sorted(incomes.keys()):
+        result_incomes[key] = incomes[key]
+
+    result_expenses = {}
+    for key in sorted(expenses.keys()):
+        result_expenses[key] = expenses[key]
+
+
+    
+    return JsonResponse({'incomes': result_incomes, 'expenses': result_expenses}, safe=False)
