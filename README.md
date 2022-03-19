@@ -31,8 +31,18 @@ O TrulyExpenses é uma plataforma desenvolvida utilizando o Framework Django do 
 
 Plataforma disponível para uso em: [http://expenses.sistemifica.com.br](http://expenses.sistemifica.com.br)
 
-<div align="center" id="top"> 
+<div align="center"> 
   <img src="expenseswebsite/expenseswebsite/static/img/plataform.png" alt="TrulyExpenses Website" />
+  &#xa0;
+</div>
+
+<div align="center"> 
+  <img src="expenseswebsite/expenseswebsite/static/img/plataform2.png" alt="TrulyExpenses Website" />
+  &#xa0;
+</div>
+
+<div align="center"> 
+  <img src="expenseswebsite/expenseswebsite/static/img/plataform3.png" alt="TrulyExpenses Website" />
   &#xa0;
 </div>
 
