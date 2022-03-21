@@ -9,7 +9,7 @@
 <!-- Status -->
 
  <h4 align="center"> 
-	🚧  Em construção...  🚧
+	🌐 Projeto Concluído 🌐
 </h4> 
 
 <hr> 
